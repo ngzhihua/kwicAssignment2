@@ -11,7 +11,15 @@ public class Main {
     public static void main(String[] args){
         long startTime = System.currentTimeMillis();
         Scanner sc = new Scanner(System.in);
-
+        
+        System.out.println("Enter the requred words (terminate input by entering empty line) ");
+        List<String> requiredWordlist = new ArrayList<String>();
+        String requireWords = sc.nextLine();
+        while( !requireWords.isEmpty()){
+        	requiredWordlist.add(requireWords);
+        	requireWords=sc.nextLine();
+        }
+        
         System.out.println("Enter movie titles (terminate input by entering empty line) ");
 
         List<String> inputs = new ArrayList<String>();
