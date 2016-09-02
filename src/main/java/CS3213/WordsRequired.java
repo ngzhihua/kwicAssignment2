@@ -1,35 +1,27 @@
 package CS3213;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 	
 	public class WordsRequired {
-	    private ArrayList<String> _wordsRequired;
-	    private static WordsRequired _instance;
+	    private LinkedList<String> _wordsRequired;
 	    
-	    private WordsRequired() {
-	        this._wordsRequired = new ArrayList<String>();
+	    public WordsRequired() {
+	        this._wordsRequired = new LinkedList<String>();
 	    }
-
-	    public static WordsRequired getWordsRequired() {
-	        if (_instance == null) {
-	            _instance = new WordsRequired();
-	        }
-
-	        return _instance;
-	    }
-
 	    public void addWordRequired(String word) {
 	        assert(word != null);
-	        this._wordsRequired.add(word);
+	        if(!(isWordRequired(word)) && !(word.equals(""))){
+	        	this._wordsRequired.add(word);
+	        }
 	    }
 	    
 	    public String[] getFilteredShifts(String[] circularShifts){
-	    	if (_wordsRequired.size() == 0){
+	    	if (getSize()== 0){
 	    		return circularShifts;
 	    	}
 	    	else{
-	    		List<String> filteredList = new ArrayList<String>();
+	    		List<String> filteredList = new LinkedList<String>();
 	    		
 	    		for (int i = 0; i < circularShifts.length; i++){
 	    			for (String wordRequired: _wordsRequired){
@@ -51,6 +43,10 @@ import java.util.List;
 	    
 	    public int getSize(){
 	    	return this._wordsRequired.size();
+	    }
+	    
+	    public void clear(){
+	    	this._wordsRequired.clear();
 	    }
 	}
 	

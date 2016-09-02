@@ -13,10 +13,10 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Enter the requred words (terminate input by entering empty line) ");
-        List<String> requiredWordlist = new ArrayList<String>();
         String requireWords = sc.nextLine();
+        WordsRequired wordsRequired = new WordsRequired();
         while( !requireWords.isEmpty()){
-        	requiredWordlist.add(requireWords);
+        	wordsRequired.addWordRequired(requireWords);
         	requireWords=sc.nextLine();
         }
         
@@ -37,19 +37,11 @@ public class Main {
             inputWordToIgnore = sc.nextLine();
         }
         
-//        System.out.println("Enter words required (terminate input by entering empty line) ");
-//        String inputWordRequired = sc.nextLine();
-//        WordsRequired wordsRequired = WordsRequired.getWordsRequired();
-//        while (!inputWordRequired.isEmpty()){
-//        	wordsRequired.addWordRequired(inputWordRequired);
-//        	inputWordRequired = sc.nextLine();
-//        }
-        
         Alphabetizer alphabetizer = new Alphabetizer();
         for (String str : inputs) {
             CircularShift shifter = new CircularShift(str);
-//            String[] filteredShifts = wordsRequired.getFilteredShifts(shifter.getCircularShifts());
-            alphabetizer.addLines(shifter.getCircularShifts());
+            String[] filteredShifts = wordsRequired.getFilteredShifts(shifter.getCircularShifts());
+            alphabetizer.addLines(filteredShifts);
         }
 
         String[] result = alphabetizer.getSortedLines();
