@@ -44,10 +44,14 @@ import java.util.List;
 	    	}
 	    }
 
-//	    public boolean isWordIgnored(String word) {
-//	        assert(word != null);
-//	        return this._wordsToIgnore.contains(word);
-//	    }
+	    public boolean isWordRequired(String word) {
+	        assert(word != null);
+	        return this._wordsRequired.contains(word);
+	    }
+	    
+	    public int getSize(){
+	    	return this._wordsRequired.size();
+	    }
 	}
 	
 
