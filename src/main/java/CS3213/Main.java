@@ -11,15 +11,16 @@ public class Main {
     public static void main(String[] args){
         long startTime = System.currentTimeMillis();
         Scanner sc = new Scanner(System.in);
-        
-        System.out.println("Enter the requred words (terminate input by entering empty line) ");
-        String requireWords = sc.nextLine();
         WordsRequired wordsRequired = new WordsRequired();
-        while( !requireWords.isEmpty()){
-        	wordsRequired.addWordRequired(requireWords);
-        	requireWords=sc.nextLine();
-        }
         
+        List<String> requireWords=getRequiredWords(sc,wordsRequired);
+        List<String> ignoreWords=getIgnoreWords(sc);
+        //System.out.println(wordsRequired.getSize());
+        while(!(inputValidation(requireWords,ignoreWords))){
+        	requireWords=getRequiredWords(sc,wordsRequired);
+        	ignoreWords=getIgnoreWords(sc);
+        }
+        //System.out.println(wordsRequired.getSize());
         System.out.println("Enter movie titles (terminate input by entering empty line) ");
 
         List<String> inputs = new ArrayList<String>();
@@ -27,20 +28,14 @@ public class Main {
         while (!userInput.isEmpty()) {
             inputs.add(userInput);
             userInput = sc.nextLine();
-        }
-
-        System.out.println("Enter words to ignore (terminate input by entering empty line) ");
-        String inputWordToIgnore = sc.nextLine();
-        WordsToIgnore wordsToIgnore = WordsToIgnore.getWordsToIgnore();
-        while (!inputWordToIgnore.isEmpty()) {
-            wordsToIgnore.addWordToIgnore(inputWordToIgnore);
-            inputWordToIgnore = sc.nextLine();
-        }
-        
+        }        
         Alphabetizer alphabetizer = new Alphabetizer();
         for (String str : inputs) {
             CircularShift shifter = new CircularShift(str);
+            //System.out.println(shifter.getCircularShifts().length);
+            //System.out.println(wordsRequired.getSize());
             String[] filteredShifts = wordsRequired.getFilteredShifts(shifter.getCircularShifts());
+            //System.out.println(filteredShifts.length);
             alphabetizer.addLines(filteredShifts);
         }
 
@@ -56,5 +51,43 @@ public class Main {
 
         System.out.println("Total execution time: " + (endTime - startTime) );
         System.exit(0);
+    }
+    
+    private static List<String> getRequiredWords(Scanner sc, WordsRequired wordsRequired){
+        wordsRequired.clear();
+    	System.out.println("Enter the requred words (terminate input by entering empty line) ");
+        List<String> requireWords = new ArrayList<String>();
+        String inputRequireWords = sc.nextLine();
+        while( !inputRequireWords.isEmpty()){
+        	wordsRequired.addWordRequired(inputRequireWords);
+        	requireWords.add(inputRequireWords);
+        	inputRequireWords=sc.nextLine();
+        }
+        return requireWords;
+    }
+    private static List<String> getIgnoreWords(Scanner sc){
+    	System.out.println("Enter words to ignore (terminate input by entering empty line) ");
+        List<String> ignoreWords = new ArrayList<String>(); 
+        String inputWordToIgnore = sc.nextLine();
+        WordsToIgnore wordsToIgnore = WordsToIgnore.getWordsToIgnore();
+        while (!inputWordToIgnore.isEmpty()) {
+            wordsToIgnore.addWordToIgnore(inputWordToIgnore);
+            ignoreWords.add(inputWordToIgnore);
+            inputWordToIgnore = sc.nextLine();
+        }
+    	return ignoreWords;
+    }
+    private static boolean inputValidation(List<String> requireWords,List<String> ignoreWords){
+    	boolean flag=true;
+         String temp=new String();
+         for(int i=0;i<requireWords.size();i++){
+         	temp=requireWords.get(i);
+         	if(ignoreWords.contains(temp)){
+         		flag=false;
+         		System.out.println("Please try again, match found between required words and ignore words: "+temp);
+         		break;
+         	}
+         }
+         return flag;
     }
 }

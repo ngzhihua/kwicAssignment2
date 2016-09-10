@@ -22,10 +22,11 @@ import java.util.List;
 	    	}
 	    	else{
 	    		List<String> filteredList = new LinkedList<String>();
+	    		//System.out.println(_wordsRequired);
 	    		
 	    		for (int i = 0; i < circularShifts.length; i++){
 	    			for (String wordRequired: _wordsRequired){
-	    				if (circularShifts[i].startsWith(wordRequired)){
+	    				if ((circularShifts[i]).toLowerCase().startsWith(wordRequired.toLowerCase())){
 	    					filteredList.add(circularShifts[i]);
 	    				}
 	    			}
