@@ -16,7 +16,6 @@ public class WordsRequiredTest {
 	
 	@Test
 	public void testAddWordRequired() {
-		fail("make test fail");
 		WordsRequired wordsRequired = new WordsRequired();
 		wordsRequired.clear();
 		assertEquals(0, wordsRequired.getSize());
