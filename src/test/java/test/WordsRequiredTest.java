@@ -7,7 +7,7 @@ import org.junit.Test;
 import CS3213.WordsRequired;
 
 public class WordsRequiredTest {
-	private final String[] testInput={"Batman the Darknight",
+	private final String[] circularShiftTestCase={"Batman the Darknight",
 			"Robin the sidekick",
 			"Deadshot the mastermind",
 			"Harley Quinn",
@@ -16,37 +16,47 @@ public class WordsRequiredTest {
 	
 	@Test
 	public void testAddWordRequired() {
+		//Part 0: Initial Setup
 		WordsRequired wordsRequired = new WordsRequired();
 		wordsRequired.clear();
 		assertEquals(0, wordsRequired.getSize());
-		assertFalse(wordsRequired.isWordRequired("nothing in word list yet"));
-
-		wordsRequired.addWordRequired("Batman the Darknight");
-		wordsRequired.addWordRequired("Robin the sidekick");
-		wordsRequired.addWordRequired("Deadshot the mastermind");
-		wordsRequired.addWordRequired("Harley Quinn");
-		wordsRequired.addWordRequired("Joker the Ultimate");
+		
+		//Part 1: Test whether words can be added
+		wordsRequired.addWordRequired("Batman");
+		wordsRequired.addWordRequired("Robin");
+		wordsRequired.addWordRequired("Deadshot");
+		wordsRequired.addWordRequired("Harley");
+		wordsRequired.addWordRequired("Joker");
+		wordsRequired.addWordRequired(" "); //should not be added
 		wordsRequired.addWordRequired(""); //should not be added
-		assertEquals(5, wordsRequired.getSize());
-		assertFalse(wordsRequired.isWordRequired("nothing in word list yet"));
+		//assertEquals(5, wordsRequired.getSize());
+		assertTrue(wordsRequired.isWordRequired("Batman"));
+		assertTrue(wordsRequired.isWordRequired("Robin"));
+		assertTrue(wordsRequired.isWordRequired("Deadshot"));
+		assertTrue(wordsRequired.isWordRequired("Harley"));
+		assertTrue(wordsRequired.isWordRequired("Joker"));
+		assertFalse(wordsRequired.isWordRequired(" "));
 		assertFalse(wordsRequired.isWordRequired(""));
-
-		wordsRequired.addWordRequired("Batman the Darknight");
-		wordsRequired.addWordRequired("Robin the sidekick");
-		wordsRequired.addWordRequired("Deadshot the mastermind");
-		wordsRequired.addWordRequired("Harley Quinn");
-		wordsRequired.addWordRequired("Joker the Ultimate");//should not add duplicates
+		
+		//Part 2: Test whether module can ignore duplicate words
+		wordsRequired.addWordRequired("Batman");
+		wordsRequired.addWordRequired("Robin");
+		wordsRequired.addWordRequired("Deadshot");
+		wordsRequired.addWordRequired("Harley");
+		wordsRequired.addWordRequired("Joker");
 		assertEquals(5, wordsRequired.getSize());
-		assertFalse(wordsRequired.isWordRequired("nothing in word list yet"));
 		assertFalse(wordsRequired.isWordRequired(""));
 	}
 
 	@Test
 	public void testGetFilteredShifts() {
+		
+		//Part 0: Initial Setup and test with no required word
 		WordsRequired wordsRequired = new WordsRequired();
-		String[] output=wordsRequired.getFilteredShifts(testInput);
+		wordsRequired.clear();
+		assertEquals(0, wordsRequired.getSize());
+		String[] output=wordsRequired.getFilteredShifts(circularShiftTestCase);
 		assertEquals(5, output.length);
-
 		String expectedString="Batman the Darknight\n"
 				+ "Robin the sidekick\n"
 				+ "Deadshot the mastermind\n"
@@ -59,11 +69,12 @@ public class WordsRequiredTest {
 			actualString+="\n";
 		}
 		assertEquals(expectedString, actualString);
-
+		
+		//Part 1: Test of functionality with required words added
 		wordsRequired.addWordRequired("Batman");
 		wordsRequired.addWordRequired("Harley");
 		assertEquals(2, wordsRequired.getSize());
-		output=wordsRequired.getFilteredShifts(testInput);
+		output=wordsRequired.getFilteredShifts(circularShiftTestCase);
 		expectedString="Batman the Darknight\n"
 				+"Harley Quinn\n";	
 		actualString=new String();

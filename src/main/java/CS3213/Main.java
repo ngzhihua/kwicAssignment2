@@ -12,15 +12,14 @@ public class Main {
         long startTime = System.currentTimeMillis();
         Scanner sc = new Scanner(System.in);
         WordsRequired wordsRequired = new WordsRequired();
-        
+ 
         List<String> requireWords=getRequiredWords(sc,wordsRequired);
         List<String> ignoreWords=getIgnoreWords(sc);
-        //System.out.println(wordsRequired.getSize());
+ 
         while(!(inputValidation(requireWords,ignoreWords))){
         	requireWords=getRequiredWords(sc,wordsRequired);
         	ignoreWords=getIgnoreWords(sc);
         }
-        //System.out.println(wordsRequired.getSize());
         System.out.println("Enter movie titles (terminate input by entering empty line) ");
 
         List<String> inputs = new ArrayList<String>();
@@ -32,10 +31,7 @@ public class Main {
         Alphabetizer alphabetizer = new Alphabetizer();
         for (String str : inputs) {
             CircularShift shifter = new CircularShift(str);
-            //System.out.println(shifter.getCircularShifts().length);
-            //System.out.println(wordsRequired.getSize());
             String[] filteredShifts = wordsRequired.getFilteredShifts(shifter.getCircularShifts());
-            //System.out.println(filteredShifts.length);
             alphabetizer.addLines(filteredShifts);
         }
 

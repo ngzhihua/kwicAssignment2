@@ -11,7 +11,7 @@ import java.util.List;
 	    }
 	    public void addWordRequired(String word) {
 	        assert(word != null);
-	        if(!(isWordRequired(word)) && !(word.equals(""))){
+	        if(!(isWordRequired(word)) && !word.trim().isEmpty()){
 	        	this._wordsRequired.add(word);
 	        }
 	    }
